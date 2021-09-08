@@ -2,7 +2,7 @@
 // @name         Humble Bunble Choice Copy Key
 // @description  在donwload页面自动显示Humble月包的key
 // @namespace    https://github.com/fooooxxxx/Humble-Bundle-Choice-Copy-Key/
-// @version      0.1
+// @version      0.2
 // @author       fox
 // @grant        none
 // @updateURL    https://github.com/fooooxxxx/Humble-Bundle-Choice-Copy-Key/raw/master/meta.js
@@ -13,6 +13,10 @@
 // ==/UserScript==
 (function () {
     'use strict';
+    // 全局变量
+    const retryLimit = 5
+    let retryNum = 0
+
     // 获取Key和游戏名的组合列表[{name: '',key: ''}]
     const getKeyList = () => {
         const keyList = []
@@ -37,19 +41,29 @@
         const keyListTextArea = document.querySelector('#keyListTextArea')
         keyListTextArea.replaceChildren(document.createTextNode(keyListText))
     }
-    // 页面完全加载后执行
-    let keyListDivElem = document.getElementsByClassName('key-list').item(0)
-    if (keyListDivElem === null) return
-    // 插入复制按钮
-    const copyBtnElem = document.createElement('button')
-    copyBtnElem.addEventListener('click', showKeyList)
-    copyBtnElem.appendChild(document.createTextNode('刷新获取的Key'))
-    keyListDivElem.before(copyBtnElem)
-    // 插入空白的key显示区域
-    const keyListTextArea = document.createElement('textarea')
-    keyListTextArea.id = 'keyListTextArea'
-    keyListTextArea.setAttribute('style', 'width: 770px;height: 270px;')
-    keyListDivElem.before(keyListTextArea)
-    // 初始化完成后直接显示
-    showKeyList()
+    // 主函数入口
+    const initHBCopyKey = () => {
+        // 页面完全加载后执行
+        let keyListDivElem = document.getElementsByClassName('key-list').item(0)
+        if (keyListDivElem === null) {
+            console.log("重试中")
+            if (retryNum++ < retryLimit) setTimeout(initHBCopyKey, 3000)
+            else console.log("找不到key-list,启动失败")
+            return
+        }
+        // 插入复制按钮
+        const copyBtnElem = document.createElement('button')
+        copyBtnElem.addEventListener('click', showKeyList)
+        copyBtnElem.appendChild(document.createTextNode('刷新获取的Key'))
+        keyListDivElem.before(copyBtnElem)
+        // 插入空白的key显示区域
+        const keyListTextArea = document.createElement('textarea')
+        keyListTextArea.id = 'keyListTextArea'
+        keyListTextArea.setAttribute('style', 'width: 770px;height: 270px;')
+        keyListDivElem.before(keyListTextArea)
+        // 初始化完成后直接显示
+        showKeyList()
+    }
+    console.log('Humble Bunble Choice Copy Key')
+    setTimeout(initHBCopyKey, 1800)
 })();
