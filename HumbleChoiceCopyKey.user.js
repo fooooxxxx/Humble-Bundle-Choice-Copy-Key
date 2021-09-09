@@ -6,7 +6,7 @@
 // @author       fox
 // @grant        none
 // @updateURL    https://github.com/fooooxxxx/Humble-Bundle-Choice-Copy-Key/raw/master/meta.js
-// @downloadURL  https://github.com/fooooxxxx/Humble-Bundle-Choice-Copy-Key/raw/master/HumbleChoiceCopyKey.js
+// @downloadURL  https://github.com/fooooxxxx/Humble-Bundle-Choice-Copy-Key/raw/master/HumbleChoiceCopyKey.user.js
 // @include      https://www.humblebundle.com/downloads*
 // @icon         https://humblebundle-a.akamaihd.net/static/hashed/46cf2ed85a0641bfdc052121786440c70da77d75.png
 // @run-at       document-end
